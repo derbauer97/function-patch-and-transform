@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"time"
 
 	"google.golang.org/protobuf/types/known/structpb"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
@@ -37,7 +38,7 @@ func (f *Function) RunFunction(ctx context.Context, req *fnv1.RunFunctionRequest
 	log.Debug("Running Function")
 
 	// TODO(negz): We can probably use a longer TTL if all resources are ready.
-	rsp := response.To(req, response.DefaultTTL)
+	rsp := response.To(req, time.Hour)
 
 	input := &v1beta1.Resources{}
 	if err := request.GetInput(req, input); err != nil {
